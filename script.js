@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const csvFiles = ['5star_char_name.csv', '4star_char_name.csv']; // 加入所有CSV檔案的名稱
+    const csvFiles = ['4star_char_name.csv', '5star_char_name.csv']; // 加入所有CSV檔案的名稱
   
     // 讀取並合併所有 CSV 檔案
     Promise.all(csvFiles.map(file => fetch(file).then(response => response.text())))
@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
               characterData.push(rowData);
             }
           });
-        });w
+        });
   
         displayTable(characterData);
   
@@ -50,7 +50,11 @@ document.addEventListener("DOMContentLoaded", function () {
       const suggestions = document.getElementById("suggestions");
       suggestions.innerHTML = "";
   
-      if (query.length === 0) return;
+      if (query.length === 0) {
+        // 若搜尋字串為空，顯示完整資料表
+        displayTable(data);
+        return;
+      }
   
       const results = data.filter(row =>
         row.some(cell => cell.toLowerCase().includes(query.toLowerCase()))
@@ -81,4 +85,3 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
   });
-  
