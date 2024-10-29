@@ -1,35 +1,26 @@
 document.addEventListener("DOMContentLoaded", function () {
     const csvFiles = ['4star_char_name.csv', '5star_char_name.csv']; // 加入所有CSV檔案的名稱
-  
     // 讀取並合併所有 CSV 檔案
-    // Promise.all(csvFiles.map(file => fetch(file).then(response => response.text())))
-    //   .then(allData => {
-    //     let characterData = [];
+    Promise.all(csvFiles.map(file => fetch(file).then(response => response.text())))
+      .then(allData => {
+        let characterData = [];
   
-    //     allData.forEach(data => {
-    //       const rows = data.split('\n').slice(1); // 移除標題
-    //       rows.forEach(row => {
-    //         const rowData = row.split(',').map(cell => cell.trim());
-    //         if (rowData.length === 4) { // 確認每列有四個欄位
-    //           characterData.push(rowData);
-    //         }
-    //       });
-    //     });
+        allData.forEach(data => {
+          const rows = data.split('\n').slice(1); // 移除標題
+          rows.forEach(row => {
+            const rowData = row.split(',').map(cell => cell.trim());
+            if (rowData.length === 4) { // 確認每列有四個欄位
+              characterData.push(rowData);
+            }
+          });
+        });
   
-    //     displayTable(characterData);
+        displayTable(characterData);
   
-    //     const searchBox = document.getElementById("searchBox");
-    //     searchBox.addEventListener("input", () => searchCharacter(characterData, searchBox.value));
-    //   });
-    fetch("4star_char_name.json")
-    .then(response => response.json())
-    .then(data => {
-      let characterData = data.map(row => [row.zh, row.en, row.jp, row.kr]);
-      displayTable(characterData);
+        const searchBox = document.getElementById("searchBox");
+        searchBox.addEventListener("input", () => searchCharacter(characterData, searchBox.value));
+      });
   
-      const searchBox = document.getElementById("searchBox");
-      searchBox.addEventListener("input", () => searchCharacter(characterData, searchBox.value));
-    });
     // 顯示表格並加入點擊複製功能
     function displayTable(data) {
       const tableBody = document.getElementById("characterTable").getElementsByTagName("tbody")[0];
