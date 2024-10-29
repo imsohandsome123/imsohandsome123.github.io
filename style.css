@@ -1,0 +1,29 @@
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  #searchBox {
+    width: 100%;
+    padding: 10px;
+    margin: 20px 0;
+  }
+  
+  #suggestions div {
+    background-color: #f1f1f1;
+    padding: 5px;
+    cursor: pointer;
+  }
+  
+  #characterTable {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  #characterTable th, #characterTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  #characterTable tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
