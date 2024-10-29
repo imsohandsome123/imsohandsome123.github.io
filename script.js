@@ -1,26 +1,48 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // 讀取並解析 CSV 檔案
-    fetch('5star_char_name.csv')
-      .then(response => response.text())
-      .then(data => {
-        const rows = data.split('\n').slice(1); // 移除標題
-        const characterData = rows.map(row => row.split(','));
+    const csvFiles = ['5star_char_name.csv', '4star_char_name.csv']; // 加入所有CSV檔案的名稱
+  
+    // 讀取並合併所有 CSV 檔案
+    Promise.all(csvFiles.map(file => fetch(file).then(response => response.text())))
+      .then(allData => {
+        let characterData = [];
+  
+        allData.forEach(data => {
+          const rows = data.split('\n').slice(1); // 移除標題
+          rows.forEach(row => {
+            const rowData = row.split(',').map(cell => cell.trim());
+            if (rowData.length === 4) { // 確認每列有四個欄位
+              characterData.push(rowData);
+            }
+          });
+        });w
+  
         displayTable(characterData);
   
         const searchBox = document.getElementById("searchBox");
         searchBox.addEventListener("input", () => searchCharacter(characterData, searchBox.value));
       });
   
-    // 顯示表格
+    // 顯示表格並加入點擊複製功能
     function displayTable(data) {
       const tableBody = document.getElementById("characterTable").getElementsByTagName("tbody")[0];
+      tableBody.innerHTML = ""; // 清空表格內容
       data.forEach(row => {
         let newRow = tableBody.insertRow();
         row.forEach(cell => {
           let newCell = newRow.insertCell();
-          newCell.textContent = cell.trim();
+          newCell.textContent = cell;
+          
+          // 新增點擊事件以便複製
+          newCell.addEventListener("click", () => copyText(cell));
         });
       });
+    }
+  
+    // 點擊複製文字
+    function copyText(text) {
+      navigator.clipboard.writeText(text)
+        .then(() => alert(`已複製: ${text}`))
+        .catch(err => console.error("無法複製文字: ", err));
     }
   
     // 搜尋功能
@@ -54,7 +76,9 @@ document.addEventListener("DOMContentLoaded", function () {
       let newRow = tableBody.insertRow();
       match.forEach(cell => {
         let newCell = newRow.insertCell();
-        newCell.textContent = cell.trim();
+        newCell.textContent = cell;
+        newCell.addEventListener("click", () => copyText(cell));
       });
     }
   });
+  
