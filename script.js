@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const csvFiles = ['4star_char_name.csv', '5star_char_name.csv']; // 加入所有CSV檔案的名稱
+    const csvFiles = ['data/4star_char_name.csv', 'data/5star_char_name.csv']; // 加入所有CSV檔案的名稱
     // 讀取並合併所有 CSV 檔案
     Promise.all(csvFiles.map(file => fetch(file).then(response => response.text())))
       .then(allData => {
