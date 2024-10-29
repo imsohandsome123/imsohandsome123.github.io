@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     // 讀取並解析 CSV 檔案
-    fetch('characters.csv')
+    fetch('5star_char_name.csv')
       .then(response => response.text())
       .then(data => {
         const rows = data.split('\n').slice(1); // 移除標題
